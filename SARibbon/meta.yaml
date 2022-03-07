@@ -1,0 +1,46 @@
+{% set name = "saribbon" %}
+{% set version = "0.0.1" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/mingweiLIU/SARibbon/archive/refs/tags/v{{ version }}.tar.gz  
+
+build:
+  number: 9
+  skip: true  # [win and vc<14]
+  run_exports:
+    - {{ pin_subpackage(name, max_pin='x.x') }}
+
+requirements:
+  build:
+    - cmake
+    - ninja
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
+    - qt
+  run:
+    - qt
+
+test:
+  requires:
+    
+  commands:
+about:
+  home: https://github.com/czyt1988/SARibbon
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  summary: 'SARibbon, Ribbon Control on Qt'
+
+  description: |
+    Ribbon Control on Qt.
+  doc_url: 
+  dev_url: https://github.com/czyt1988/SARibbon
+
+extra:
+  recipe-maintainers:
+    - mingwieliu 

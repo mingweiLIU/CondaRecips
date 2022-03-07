@@ -1,0 +1,72 @@
+{% set name = "osgearth" %}
+{% set version = "3.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/gwaldron/osgearth/archive/osgearth-{{ version }}.tar.gz
+  patches:
+
+build:
+  number: 10
+  skip: true  # [win and vc<14]
+  run_exports:
+    - {{ pin_subpackage(name, max_pin='x.x') }}
+
+requirements:
+  build:
+    - {{ compiler('cxx') }}
+    - cmake
+    - pkg-config
+    - doxygen
+    - graphviz  # [unix]
+    - graphviz 2.38  # [win]
+    - {{ cdt('mesa-dri-drivers') }}      # [linux]
+    - {{ cdt('mesa-libgl-devel') }}      # [linux]
+    - {{ cdt('mesa-libegl-devel') }}     # [linux]
+    - {{ cdt('libselinux-devel') }}      # [linux]
+    - {{ cdt('libxdamage-devel') }}      # [linux]
+    - {{ cdt('libxfixes-devel') }}       # [linux]
+    - {{ cdt('libxxf86vm') }}            # [linux]
+  host:
+    - libcurl
+    - gdal
+    - geos
+    - sqlite
+    - leveldb
+    - protobuf
+    - openscenegraph
+    - poco
+  run:
+    - libcurl
+    - gdal
+    - geos
+    - sqlite
+    - leveldb
+    - protobuf
+    - openscenegraph
+    - poco
+test:
+  requires:
+    - pkg-config
+  commands:
+    - pkg-config --modversion {{ name }}  # [unix]
+    - test -f $PREFIX/include/osg/ref_ptr  # [unix]
+    - if not exist %PREFIX%\\Library\\include\\osgEarth\\Map exit 1  # [win]
+
+about:
+  home: https://github.com/gwaldron/osgearth
+  license: LGPL-2.1-only
+  license_family: LGPL
+  license_file: LICENSE.txt
+  summary: 'OSGEarth, A free open source C++ geospatial toolkit.'
+
+  description: |
+    A free open source C++ geospatial toolkit.
+  dev_url: https://github.com/gwaldron/osgearth
+
+extra:
+  recipe-maintainers:
+    - mingwieliu
