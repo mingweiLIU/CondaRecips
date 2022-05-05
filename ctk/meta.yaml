@@ -1,0 +1,46 @@
+{% set name = "ctk" %}
+{% set version = "1.0.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/mingweiLIU/CTK/archive/refs/tags/v{{ version }}.tar.gz  
+
+build:
+  number: 9
+  skip: true  # [win and vc<14]
+  run_exports:
+    - {{ pin_subpackage(name, max_pin='x.x') }}
+
+requirements:
+  build:
+    - cmake
+    - ninja
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
+    - qt
+  run:
+    - qt
+
+test:
+  requires:
+    
+  commands:
+about:
+  home: https://github.com/commontk/CTK
+  license: Apache License 2.0
+  license_family: GPL2
+  license_file: LICENSE
+  summary: 'The Common Toolkit is a community effort to provide support code for medical image analysis, surgical navigation, and related projects'
+
+  description: |
+    The Common Toolkit is a community effort to provide support code for medical image analysis, surgical navigation, and related projects.
+  doc_url: 
+  dev_url: https://github.com/commontk/CTK
+
+extra:
+  recipe-maintainers:
+    - mingwieliu 
