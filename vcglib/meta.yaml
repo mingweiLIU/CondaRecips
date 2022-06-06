@@ -1,0 +1,44 @@
+{% set name = "vcglib" %}
+{% set version = "0.0.1" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/mingweiLIU/vcglib/archive/refs/tags/v{{ version }}.tar.gz  
+
+build:
+  number: 9
+  skip: true  # [win and vc<14]
+  run_exports:
+    - {{ pin_subpackage(name, max_pin='x.x') }}
+
+requirements:
+  build:
+    - cmake
+    - ninja
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
+  run:
+
+test:
+  requires:
+    
+  commands:
+about:
+  home: https://github.com/cnr-isti-vclab/vcglib
+  license: GNU General Public License v3.0
+  license_family: GPL3
+  license_file: LICENSE.txt
+  summary: 'VCGlib is a library for manipulation, processing, cleaning, and simplifying triangle meshes'
+
+  description: |
+    The Visualization and Computer Graphics Library (VCGlib for short) is an open source, portable, and templated library written in C++, with no external dependencies, for manipulation, processing, cleaning, and simplifying triangle meshes.
+  doc_url: 
+  dev_url: https://github.com/cnr-isti-vclab/vcglib
+
+extra:
+  recipe-maintainers:
+    - mingwieliu 
